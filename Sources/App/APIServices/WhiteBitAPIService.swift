@@ -82,16 +82,16 @@ final class WhiteBitAPIService {
         let url: URL = URL(string: "https://whitebit.com/api/v4/public/ticker")!
         let (data, _) = try await URLSession.shared.asyncData(from: URLRequest(url: url))
         let response = try JSONDecoder().decode([String: Ticker].self, from: data)
-        return response.compactMap { key, value in
-            guard value.isFrozen == false else { return nil }
-            
-            return BookTicker(
-                symbol: key,
-                askPrice: value.lastPrice,
-                askQty: "0",
-                bidPrice: value.lastPrice,
-                bidQty: "0"
-            )
+        return response
+            .filter { $0.value.isFrozen == false }
+            .map { key, value in
+                return BookTicker(
+                    symbol: key.replacingOccurrences(of: "_", with: ""),
+                    askPrice: value.lastPrice,
+                    askQty: "0",
+                    bidPrice: value.lastPrice,
+                    bidQty: "0"
+                )
         }
     }
    

@@ -64,14 +64,6 @@ final class DefaultBotHandlers {
                     TradeableSymbolOrderbookDepthsStorage.shared.tradeableSymbolOrderbookDepths[tuple.symbol.symbol] = TradeableSymbolOrderbookDepth(tradeableSymbol: tuple.symbol, orderbookDepth: depth)
                 }
             }
-            
-            let priceChangeStatisticElements = try await BinanceAPIService.shared.getPriceChangeStatistics()
-            let bookTickers = try await BinanceAPIService.shared.getAllBookTickers()
-            PriceChangeStatisticStorage.shared.setTradingVolumeStableEquivalent(
-                priceChangeStatistics: priceChangeStatisticElements,
-                bookTickers: bookTickers,
-                symbols: allSymbols
-            )
         }
     }
     

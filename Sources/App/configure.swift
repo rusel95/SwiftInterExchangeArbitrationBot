@@ -24,8 +24,8 @@ public func configure(_ app: Application) throws {
     let tgUpdater = TGMessagesUpdaterJob(app: app, bot: TGBot.shared)
     app.queues.schedule(tgUpdater).everySecond()
     
-    let priceStatisticJob = PriceStatisticUpdaterJob(app: app)
-    app.queues.schedule(priceStatisticJob).daily().at(14, 0)
+    let pricesUpdaterJob = PricesUpdaterJob(app: app)
+    app.queues.schedule(pricesUpdaterJob).minutely()
     
     try app.queues.startScheduledJobs()
     
